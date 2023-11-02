@@ -1,0 +1,95 @@
+<nav class="navbar position-absolute navbar-expand-lg fixed-top bg-white py-3 z-3">
+  <div class="container my-0">
+    <div class="navbar-brand d-flex align-items-center gap-2">
+      <i class="fa-solid fa-hippo fa-2xl"></i>
+      <h3 class="m-0">Tangerine</h3>
+    </div>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-end gap-3" id="navbarSupportedContent">
+      <ul class="navbar-nav mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'home'">{{ 'home' | translate }}</a>
+        </li>
+
+        <ng-container *ngIf="(isGuest$ | async) === false">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" [routerLinkActive]="'active'" [routerLink]="'ingredients-list'">{{ 'ingredients' | translate }}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'receipt-list'">{{ 'recipes' | translate }}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" [routerLinkActive]="'active'" [routerLink]="'menu-list'">{{ 'menus' | translate }}</a>
+          </li>
+        </ng-container>
+
+        <!--TODO: fix accordion problem-->
+        <!--<li class="nav-item">-->
+        <!--  <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'frequently-asked-questions'">FAQ</a>-->
+        <!--</li>-->
+
+        <li class="nav-item">
+          <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'events'">{{ 'events' | translate }}</a>
+        </li>
+      </ul>
+      <hr class="d-block d-lg-none mt-0">
+      <ul class="navbar-nav flex-row mb-2 mb-lg-0">
+        <ng-container *ngIf="hasAdminPermission$ | async">
+          <li class="nav-item">
+            <button
+              mat-raised-button
+              class="mx-2"
+              (click)="openReceiptCreateDialog()">
+              {{ 'newReceipt' | translate }}
+            </button>
+          </li>
+          <li class="nav-item border-end">
+            <button
+              mat-raised-button
+              class="mx-2"
+              (click)="openMenuCreateDialog()">
+              {{ 'newMenu' | translate }}
+            </button>
+          </li>
+        </ng-container>
+
+        <app-language-switcher class="mx-2"></app-language-switcher>
+
+        <ng-container *ngIf="isGuest$ | async else signOutTemplate">
+          <li class="nav-item">
+            <button
+              mat-raised-button
+              (click)="openSignInDialog()">
+              {{ 'signIn' | translate }}
+            </button>
+          </li>
+          <li class="nav-item">
+            <button
+              mat-raised-button
+              class="mx-2"
+              (click)="openSignUpDialog()">
+              {{ 'signUp' | translate }}
+            </button>
+          </li>
+        </ng-container>
+
+        <ng-template #signOutTemplate>
+          <li class="nav-item ms-2">
+            <div *ngIf="user$ | async as user">
+              <button [matMenuTriggerFor]="menu" class="btn btn-primary px-3" type="button">
+                {{ user.username }}
+              </button>
+              <mat-menu #menu="matMenu">
+                <a mat-menu-item class="dropdown-item" [routerLink]="['profile', user.id]">{{ 'viewProfile' | translate }}</a>
+                <a mat-menu-item class="dropdown-item" [routerLink]="['home']" (click)="openSignOutDialog()">{{ 'signOut' | translate }}</a>
+              </mat-menu>
+            </div>
+          </li>
+        </ng-template>
+      </ul>
+    </div>
+  </div>
+</nav>

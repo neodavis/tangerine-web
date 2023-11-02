@@ -1,1 +1,55 @@
-/* You can add global styles to this file, and also import other style files */
+@import "ag-grid-community/styles/ag-grid.min.css";
+@import "ag-grid-community/styles/ag-theme-alpine.min.css";
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+:root, [data-bs-theme=tg-theme] {
+  --tg-primary: #ffa500;
+  --tg-primary-darken: #ee9b00;
+  --tg-primary-dark: #d58d00;
+  --tg-secondary: #fff1bf;
+
+  --bs-primary: var(--tg-primary);
+  --bs-primary-rgb: 255, 165, 0;
+
+  --bs-secondary: var(--tg-secondary);
+  --bs-secondary-rgb: 255, 241, 191;
+
+  --swiper-pagination-color: var(--tg-primary);
+  --swiper-pagination-bullet-inactive-color: var(--tg-secondary);
+  --swiper-pagination-bullet-size: 12px;
+  --swiper-pagination-bullet-inactive-opacity: 1;
+  --swiper-pagination-bullet-horizontal-gap: 8px;
+
+  .btn-primary {
+    --bs-btn-bg: var(--tg-primary);
+    --bs-btn-hover-bg: var(--tg-primary-darken);
+    --bs-btn-active-bg: var(--tg-primary-dark);
+    --bs-btn-border-color: var(--tg-primary);
+    --bs-btn-hover-border-color: var(--tg-primary);
+    --bs-btn-active-border-color: var(--tg-primary-dark);
+    --bs-btn-disabled-bg: var(--tg-primary-darken);
+    --bs-btn-disabled-border-color: var(--tg-primary-darken);
+  }
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.exclude-nav {
+  padding-top: 76px;
+}
+
+.dialog-wrapper {
+  max-height: 60vh;
+  width: 50vw;
+}

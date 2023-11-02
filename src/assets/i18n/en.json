@@ -1,0 +1,17 @@
+{
+  "home": "Home",
+  "menu": "Menu",
+  "menus": "Menus",
+  "recipe": "Recipe",
+  "recipes": "Recipes",
+  "faq": "FAQ",
+  "events": "Events",
+  "newReceipt": "New Receipt",
+  "ingredient": "Ingredient",
+  "ingredients": "Ingredients",
+  "newMenu": "New Menu",
+  "signIn": "Sign In",
+  "signUp": "Sign Up",
+  "viewProfile": "View profile",
+  "signOut": "Sign Out"
+}
