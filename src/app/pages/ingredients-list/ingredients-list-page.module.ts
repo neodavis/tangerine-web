@@ -5,27 +5,28 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { AgGridModule } from 'ag-grid-angular';
 
+import { AuthModule } from '@shared/auth';
+import { SharedLoaderModule } from '@shared/loader';
+import { DialogsModule } from '@shared/dialogs';
 
-import { AuthModule } from '../../shared/auth';
-import { SharedLoaderModule } from '../../shared/loader';
-import { DialogsModule } from '../../shared/dialogs';
 import { IngredientsListPageComponent } from './ingredients-list-page.component';
 
 
 @NgModule({
-    declarations: [
-      IngredientsListPageComponent,
-    ],
-    imports: [
-        CommonModule,
-        MatButtonModule,
-        AuthModule,
-        SharedLoaderModule,
-        DialogsModule,
-        AgGridModule,
-        RouterModule.forChild([
-            {path: '', component: IngredientsListPageComponent},
-        ]),
-    ],
+  declarations: [
+    IngredientsListPageComponent,
+  ],
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    AuthModule,
+    SharedLoaderModule,
+    DialogsModule,
+    AgGridModule,
+    RouterModule.forChild([
+      {path: '', component: IngredientsListPageComponent},
+    ]),
+  ],
 })
-export class IngredientsListPageModule {}
+export class IngredientsListPageModule {
+}

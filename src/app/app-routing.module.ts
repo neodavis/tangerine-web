@@ -20,7 +20,7 @@ const routes: Routes = [
   },
   {
     path: 'ingredients-list',
-    loadChildren: () => import('./pages/receipt-list/receipt-list-page.module').then((mod) => mod.ReceiptListPageModule),
+    loadChildren: () => import('./pages/ingredients-list/ingredients-list-page.module').then((mod) => mod.IngredientsListPageModule),
     // canActivate: [JwtAuthGuard],
   },
   {

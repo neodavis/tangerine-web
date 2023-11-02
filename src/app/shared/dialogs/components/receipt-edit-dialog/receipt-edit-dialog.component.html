@@ -1,70 +1,57 @@
 <app-shared-loader *ngIf="loading$ | async"></app-shared-loader>
-<div class="dialog-wrapper">
-  <div class="container border rounded p-4">
-    <h2 class="text-center">Menu Details</h2>
-    <form [formGroup]="receiptForm" class="container my-4">
-      <div class="row">
-        <div class="col">
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" placeholder="Enter receipt name" formControlName="name" class="form-control">
-          </div>
-        </div>
-      </div>
-      <div class="row mt-2">
-        <div class="col">
-          <div class="form-group">
-            <label for="duration">Duration</label>
-            <input type="number" id="duration" placeholder="Enter receipt implementation duration" formControlName="duration" class="form-control">
-          </div>
-        </div>
-        <div class="col">
-          <div class="form-group">
-            <label for="difficulty">Difficulty</label>
-            <select id="difficulty" formControlName="difficulty" class="form-control">
-              <option value="" selected disabled>Choose Difficulty</option>
-              <option value="Easy">Easy</option>
-              <option value="Medium">Medium</option>
-              <option value="Hard">Hard</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="row mt-2">
-        <div class="col">
-          <div class="form-group">
-            <label for="price">Price</label>
-            <input type="number" id="price" placeholder="Enter total products price" formControlName="price" class="form-control">
-          </div>
-        </div>
-        <div class="col">
-          <div class="form-group">
-            <label for="quantity">Quantity</label>
-            <input type="number" id="quantity" placeholder="Enter quantity" formControlName="quantity" class="form-control">
-          </div>
-        </div>
-      </div>
-      <div *ngIf="!isReadOnly" class="row mt-2">
-        <div class="col">
-           <div class="form-group">
-             <label for="photo">Photo</label>
-             <input type="file" id="photo" formControlName="photo" (change)="onFileSelected($event)" class="form-control">
-           </div>
-        </div>
-      </div>
-    </form>
 
-    <button
-      class="btn btn-primary w-100 mt-3"
-      (click)="submitDialog()">
-      Save
-    </button>
-    <button
-      mat-raised-button
-      class="w-100 mt-1"
-      color="warn"
-      (click)="closeDialog()">
-      Go Back
-    </button>
+<div class="dialog-wrapper overflow-x-hidden">
+  <div class="container border rounded p-4">
+    <h2 class="text-center">Receipt Details</h2>
+    <form class="mt-4" [formGroup]="receiptForm">
+      <div class="d-flex justify-content-between gap-3">
+        <div class="form-group col">
+          <label for="name">Receipt Name:</label>
+          <input type="text" id="name" formControlName="name" placeholder="Type menu name" class="form-control">
+        </div>
+        <div class="form-group col">
+          <label for="name">Receipt Photo:</label>
+          <input type="file" id="photo" (change)="onFileSelected($event)" class="form-control">
+        </div>
+      </div>
+      <div class="d-flex justify-content-between gap-3">
+        <div class="col">
+          <label for="ingredient">Select Ingredients:</label>
+          <select id="ingredient" formControlName="ingredient" class="form-control">
+            <option disabled value="">Select Ingredient</option>
+            <option
+              *ngFor="let ingredient of (ingredientOptions$ | async)"
+              [value]="ingredient.id">
+              {{ ingredient.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+
+      <h3 class="mt-3">Ingredients:</h3>
+      <div formArrayName="ingredients">
+        <div *ngFor="let ingredient of ingredientsControl.value; let i = index" class="card mt-3">
+          <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            {{ ingredient.name }}
+            <button class="btn btn-danger" (click)="ingredientsControl.removeAt(i)">X</button>
+          </div>
+        </div>
+      </div>
+
+      <button
+        class="btn btn-primary w-100 mt-3"
+        [disabled]="receiptForm.invalid || receiptForm.pristine"
+        (click)="submitDialog()">
+        Save
+      </button>
+      <button
+        mat-raised-button
+        class="w-100 mt-1"
+        color="warn"
+        (click)="closeDialog()">
+        Go Back
+      </button>
+    </form>
   </div>
 </div>

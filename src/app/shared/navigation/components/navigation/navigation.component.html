@@ -38,22 +38,42 @@
       <hr class="d-block d-lg-none mt-0">
       <ul class="navbar-nav flex-row mb-2 mb-lg-0">
         <ng-container *ngIf="hasAdminPermission$ | async">
-          <li class="nav-item">
-            <button
-              mat-raised-button
-              class="mx-2"
-              (click)="openReceiptCreateDialog()">
-              {{ 'newReceipt' | translate }}
-            </button>
+          <li class="nav-item pe-3 border-end">
+            <div>
+              <button mat-raised-button [matMenuTriggerFor]="createDropdown" class="btn " type="button">
+                {{ 'create' | translate }}
+              </button>
+              <mat-menu #createDropdown="matMenu">
+                <a mat-menu-item class="dropdown-item" (click)="openIngredientCreateDialog()">{{ 'newIngredient' | translate }}</a>
+                <a mat-menu-item class="dropdown-item" (click)="openReceiptCreateDialog()">{{ 'newReceipt' | translate }}</a>
+                <a mat-menu-item class="dropdown-item" (click)="openMenuCreateDialog()">{{ 'newMenu' | translate }}</a>
+              </mat-menu>
+            </div>
           </li>
-          <li class="nav-item border-end">
-            <button
-              mat-raised-button
-              class="mx-2"
-              (click)="openMenuCreateDialog()">
-              {{ 'newMenu' | translate }}
-            </button>
-          </li>
+<!--          <li class="nav-item">-->
+<!--            <button-->
+<!--              mat-raised-button-->
+<!--              class="mx-2"-->
+<!--              (click)="openIngredientCreateDialog()">-->
+<!--              {{ 'newIngredient' | translate }}-->
+<!--            </button>-->
+<!--          </li>-->
+<!--          <li class="nav-item">-->
+<!--            <button-->
+<!--              mat-raised-button-->
+<!--              class="mx-2"-->
+<!--              (click)="openReceiptCreateDialog()">-->
+<!--              {{ 'newReceipt' | translate }}-->
+<!--            </button>-->
+<!--          </li>-->
+<!--          <li class="nav-item ">-->
+<!--            <button-->
+<!--              mat-raised-button-->
+<!--              class="mx-2"-->
+<!--              (click)="openMenuCreateDialog()">-->
+<!--              {{ 'newMenu' | translate }}-->
+<!--            </button>-->
+<!--          </li>-->
         </ng-container>
 
         <app-language-switcher class="mx-2"></app-language-switcher>

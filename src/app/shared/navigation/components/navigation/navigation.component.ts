@@ -7,6 +7,7 @@ import { map, Observable } from 'rxjs';
 import { AuthService } from '@shared/auth/services';
 import { User, UserRole } from '@shared/auth/models';
 import {
+  IngredientEditDialogComponent,
   MenuEditDialogComponent,
   ReceiptEditDialogComponent,
   SignInDialogComponent,
@@ -32,7 +33,7 @@ export class NavigationComponent {
     private authService: AuthService,
     private router: Router,
     private dialog: MatDialog,
-  ) {}
+  ) { }
 
   openSignInDialog(): void {
     this.dialog.closeAll();
@@ -51,11 +52,16 @@ export class NavigationComponent {
 
   openMenuCreateDialog(): void {
     this.dialog.closeAll();
-    this.dialog.open(MenuEditDialogComponent)
+    this.dialog.open(MenuEditDialogComponent);
   }
 
   openReceiptCreateDialog(): void {
     this.dialog.closeAll();
-    this.dialog.open(ReceiptEditDialogComponent)
+    this.dialog.open(ReceiptEditDialogComponent);
+  }
+
+  openIngredientCreateDialog(): void {
+    this.dialog.closeAll();
+    this.dialog.open(IngredientEditDialogComponent);
   }
 }
