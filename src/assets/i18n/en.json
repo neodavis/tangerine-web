@@ -1,5 +1,6 @@
 {
   "home": "Home",
+  "create": "Create",
   "menu": "Menu",
   "menus": "Menus",
   "recipe": "Recipe",
@@ -10,6 +11,7 @@
   "ingredient": "Ingredient",
   "ingredients": "Ingredients",
   "newMenu": "New Menu",
+  "newIngredient": "New Ingredient",
   "signIn": "Sign In",
   "signUp": "Sign Up",
   "viewProfile": "View profile",

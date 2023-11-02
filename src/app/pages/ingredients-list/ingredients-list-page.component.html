@@ -1,8 +1,6 @@
-<div class="main">
-  <ag-grid-angular
-    class="ag-theme-alpine h-100 w-100"
-    [rowData]="collection$ | async"
-    [gridOptions]="gridOptions">
-  </ag-grid-angular>
-</div>
+<ag-grid-angular
+  class="ag-theme-alpine exclude-nav vh-100"
+  [rowData]="collection$ | async"
+  [gridOptions]="gridOptions">
+</ag-grid-angular>
 

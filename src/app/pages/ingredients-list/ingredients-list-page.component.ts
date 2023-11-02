@@ -9,7 +9,7 @@ import { GridOptions, GridReadyEvent, RowClickedEvent } from 'ag-grid-community'
 import { MenuService } from '@shared/menu/services';
 import { Menu } from '@shared/menu/models';
 import { Receipt } from '@shared/receipt/models';
-import { MenuEditDialogComponent } from '@shared/dialogs/components';
+import { IngredientEditDialogComponent, MenuEditDialogComponent } from '@shared/dialogs/components';
 
 @Component({
   templateUrl: './ingredients-list-page.component.html',
@@ -28,7 +28,7 @@ export class IngredientsListPageComponent {
 
   gridOptions: GridOptions = {
     onGridReady: (event: GridReadyEvent) => this.onGridReady(event),
-    onRowClicked: (event: RowClickedEvent) => this.openMenuEditDialog(event.data.id),
+    onRowClicked: (event: RowClickedEvent) => this.openIngredientsEditDialog(event.data.id),
     pagination: true,
     paginationPageSize: 25,
     rowSelection: 'multiple',
@@ -56,8 +56,8 @@ export class IngredientsListPageComponent {
     event.api.sizeColumnsToFit();
   }
 
-  private openMenuEditDialog(id: string): void {
+  private openIngredientsEditDialog(id: string): void {
     this.dialog.closeAll();
-    this.dialog.open(MenuEditDialogComponent, {data: {id}})
+    this.dialog.open(IngredientEditDialogComponent, {data: {id}})
   }
 }

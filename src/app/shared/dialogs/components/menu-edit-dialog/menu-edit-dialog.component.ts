@@ -46,7 +46,7 @@ export class MenuEditDialogComponent implements OnInit {
   }
 
   submitDialog(): void {
-    const saveAction = this.data.id ? this.menuService.save(this.menuForm.value) : this.menuService.update(this.menuForm.value);
+    const saveAction: Observable<Menu> = this.data?.id ? this.menuService.save(this.menuForm.value) : this.menuService.update(this.menuForm.value);
 
     this.loading$.next(true)
 

@@ -11,9 +11,10 @@
         </div>
         <div class="form-group col">
           <label for="name">Menu Photo:</label>
-          <input type="file" id="photo" formControlName="photo" (change)="onFileSelected($event)" class="form-control">
+          <input type="file" id="photo" (change)="onFileSelected($event)" class="form-control">
         </div>
-
+      </div>
+      <div class="d-flex justify-content-between gap-3">
         <div class="col">
           <label for="receipt">Select Receipt:</label>
           <select id="receipt" formControlName="receipt" class="form-control">
@@ -26,7 +27,6 @@
           </select>
         </div>
       </div>
-
 
       <h3 class="mt-3">Receipts:</h3>
       <div formArrayName="receipts">

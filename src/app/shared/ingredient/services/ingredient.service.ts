@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 import { Ingredient } from '../models';
+import { Receipt } from '@shared/receipt/models';
 
 @Injectable()
 export class IngredientService {
@@ -37,5 +38,22 @@ export class IngredientService {
     //       },
     //     )
     //   );
+  }
+
+  save(value: Partial<Receipt>) {
+    return of(null);
+  }
+
+  update(value: Receipt) {
+    return of(null);
+  }
+
+  savePhoto(file: File): Observable<unknown> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return of(null as unknown as Receipt);
+
+    // return this.http.post(, formData)
   }
 }

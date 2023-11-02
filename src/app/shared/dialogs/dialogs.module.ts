@@ -11,7 +11,8 @@ import {
   SignInDialogComponent,
   SignUpDialogComponent,
   MenuEditDialogComponent,
-  ReceiptEditDialogComponent
+  ReceiptEditDialogComponent,
+  IngredientEditDialogComponent,
 } from './components';
 
 @NgModule({
@@ -20,6 +21,7 @@ import {
     SignUpDialogComponent,
     MenuEditDialogComponent,
     ReceiptEditDialogComponent,
+    IngredientEditDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -34,6 +36,7 @@ import {
     SignUpDialogComponent,
     MenuEditDialogComponent,
     ReceiptEditDialogComponent,
+    IngredientEditDialogComponent,
   ],
 })
 export class DialogsModule {
