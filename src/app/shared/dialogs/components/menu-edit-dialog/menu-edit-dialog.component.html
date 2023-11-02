@@ -1,0 +1,72 @@
+<app-shared-loader *ngIf="loading$ | async"></app-shared-loader>
+
+<div class="dialog-wrapper overflow-x-hidden">
+  <div class="container border rounded p-4">
+    <h2 class="text-center">Menu Details</h2>
+    <form class="mt-4" [formGroup]="menuForm">
+      <div class="d-flex justify-content-between gap-3">
+        <div class="form-group col">
+          <label for="name">Menu Name:</label>
+          <input type="text" id="name" formControlName="name" placeholder="Type menu name" class="form-control">
+        </div>
+        <div class="form-group col">
+          <label for="name">Menu Photo:</label>
+          <input type="file" id="photo" formControlName="photo" (change)="onFileSelected($event)" class="form-control">
+        </div>
+
+        <div class="col">
+          <label for="receipt">Select Receipt:</label>
+          <select id="receipt" formControlName="receipt" class="form-control">
+            <option disabled value="">Select receipt</option>
+            <option
+              *ngFor="let receipt of (receiptOptions$ | async)"
+              [value]="receipt.id">
+              {{ receipt.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+
+      <h3 class="mt-3">Receipts:</h3>
+      <div formArrayName="receipts">
+        <div *ngFor="let receipt of receiptsControl.value; let i = index" class="card mt-3">
+          <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            {{ receipt.name }}
+            <button class="btn btn-danger" (click)="receiptsControl.removeAt(i)">X</button>
+          </div>
+          <div class="card-body text-start d-flex">
+            <table>
+              <tr>
+                <td class="pe-5">Quantity: {{ receipt.quantity }}</td>
+                <td>Duration: {{ receipt.duration }}</td>
+              </tr>
+              <tr>
+                <td class="pe-5">Difficulty: {{ receipt.difficulty }}</td>
+                <td>Created By: {{ receipt.createdBy }}</td>
+              </tr>
+              <tr>
+                <td class="pe-5">Price: {{ receipt.price }}</td>
+                <td>Created At: {{ receipt.createdAt | date }}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <button
+        class="btn btn-primary w-100 mt-3"
+        [disabled]="menuForm.invalid || menuForm.pristine"
+        (click)="submitDialog()">
+        Save
+      </button>
+      <button
+        mat-raised-button
+        class="w-100 mt-1"
+        color="warn"
+        (click)="closeDialog()">
+        Go Back
+      </button>
+    </form>
+  </div>
+</div>

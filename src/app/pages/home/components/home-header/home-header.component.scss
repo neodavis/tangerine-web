@@ -1,0 +1,41 @@
+.header {
+  --nav-height: 82px;
+  height: calc(100vh - var(--nav-height));
+  margin-top: var(--nav-height);
+}
+
+.header {
+  background: linear-gradient(45deg, #fff1bf, #eac35f);
+  background-size: 400% 400%;
+  animation: gradient 5s ease infinite;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.header-content {
+  color: black;
+}
+
+.header-content h1 {
+  font-size: 2.5rem;
+}
+
+.header-content p {
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}

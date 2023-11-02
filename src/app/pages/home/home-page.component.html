@@ -1,0 +1,69 @@
+<app-home-header></app-home-header>
+
+<main class="main flex-grow-1">
+  <section class="section-opportunities py-5 bg-primary">
+    <div class="container wow bounceInLeft">
+      <h3 class="text-center mb-4">Our Opportunities</h3>
+      <div class="row justify-content-center gap-3">
+        <article class="section-opportunities-card bg-white rounded p-3 col-lg-3 col-md-12 col-sm-12 col-11">
+          <h5>Recipe Management</h5>
+          <p>Unlock the power of our advanced recipe management system. Organize, store, and access your culinary
+            creations with ease. Whether you're a seasoned chef or an aspiring cook, our platform simplifies recipe
+            management for you.</p>
+        </article>
+        <article class="section-opportunities-card bg-white rounded p-3 col-lg-3 col-md-12 col-sm-12 col-11">
+          <h5>Menu Planning</h5>
+          <p>Elevate your menu planning with our intuitive tools. Craft exquisite menus that delight diners and reflect your culinary expertise. From appetizers to desserts, design menus that leave a lasting impression.</p>
+        </article>
+        <article class="section-opportunities-card bg-white rounded p-3 col-lg-3 col-md-12 col-sm-12 col-11">
+          <h5>Culinary Workshops</h5>
+          <p>Join our culinary workshops and refine your skills. Our expert instructors will guide you through the intricacies of culinary artistry. Learn to create culinary masterpieces from diverse cuisines.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+  <section class="section-advantages py-5 bg-secondary">
+    <div class="container wow bounceInRight">
+      <div class="row justify-content-center">
+        <img class="col-lg-6 bg-light d-none d-lg-block p-0" id="advantages-image" alt="our-advantages-image" ngSrc="assets/advantages-image.png" height="580" width="582">
+        <div class="col-lg-6 col-md-12 col-sm-12 col-11 d-flex flex-column justify-content-evenly">
+          <h3 class="text-center mb-4">Our Culinary Advantages</h3>
+          <p>
+            Discover the unique advantages of our culinary platform tailored for culinary masters and enthusiasts in recipe and menu management. We're committed to enhancing your culinary journey with these key features:
+          </p>
+          <ul>
+            <li><strong>Advanced Recipe Management:</strong> Seamlessly organize, store, and access your culinary creations. Whether you're a professional chef or a passionate home cook, our platform simplifies recipe management, making it effortless to keep track of your culinary innovations.</li>
+
+            <li><strong>Menu Planning Excellence:</strong> Elevate your menu planning game with our intuitive tools. Craft exquisite menus that captivate diners and showcase your culinary expertise. From appetizers to desserts, design menus that reflect your culinary mastery.</li>
+
+            <li><strong>Culinary Workshops:</strong> Hone your skills with our expert-led culinary workshops. Gain insights into diverse cuisines and techniques, learning from the best in the culinary world. Whether you're looking to refine your skills or explore new culinary horizons, our workshops have you covered.</li>
+          </ul>
+          <p>
+            Join us on a culinary journey like no other and take your culinary expertise to new heights. Embrace the art of cooking, menu creation, and culinary excellence with us.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-form py-5 bg-primary">
+    <div class="container bg-white rounded p-5 col-11 wow bounceInUp">
+      <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-12 col-sm-12 col-11 d-flex flex-column justify-content-evenly">
+          <h3 class="text-center mb-4">Have additional questions?</h3>
+          <form>
+            <label for="email">Email: </label>
+            <input class="form-control mb-2" id="email" type="email" name="email" placeholder="sample@email.com">
+
+            <label for="question">Question: </label>
+            <textarea class="form-control mb-2 question-textarea no-resize" id="question" name="question" placeholder="Type your question here"></textarea>
+
+            <button class="btn btn-primary" type="submit">Get answer</button>
+          </form>
+        </div>
+        <img class="col-lg-6 bg-light d-none d-lg-block p-0" height="480" width="624" id="questions-image" alt="questions-image" ngSrc="assets/questions-image.png">
+      </div>
+    </div>
+  </section>
+</main>
+<app-footer></app-footer>

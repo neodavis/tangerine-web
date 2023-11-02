@@ -1,0 +1,19 @@
+<main class="bg-primary exclude-nav d-flex justify-content-center align-items-center min-vh-100">
+  <div class="container">
+    <div class="accordion" id="accordion">
+      <div *ngFor="let item of items; let i = index" class="accordion-item">
+        <h2 class="accordion-header m-0" [id]="item.id">
+          <button class="accordion-button collapsed shadow-none fw-bold" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#' + item.id" aria-expanded="true">
+            {{ i + 1 + '. ' + item.headerText }}
+          </button>
+        </h2>
+        <div [id]="item.id" class="accordion-collapse collapse" data-bs-parent="#accordion">
+          <div class="accordion-body">
+            {{ item.bodyText }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<app-footer></app-footer>
