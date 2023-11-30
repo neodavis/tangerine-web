@@ -30,7 +30,8 @@ export class RecipeListPageComponent implements OnInit {
     private notificationService: NotificationService,
     private clipboard: Clipboard,
     private dialog: MatDialog,
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.loading$.next(true);
@@ -49,8 +50,7 @@ export class RecipeListPageComponent implements OnInit {
   }
 
   shareRecipe(recipe: Recipe) {
-    const randomNumber = Math.floor(Math.random() * 6);
-    const shareMessages = [
+    const shareMessage = [
       `Hey there! Feast your eyes on this fabulous recipe of ${recipe.name}, that I recently stumbled upon. Click the link below to explore all the details: [See more...](http://localhost:4200/recipe-list?recipeId=${recipe.id})`,
       `Greetings! I'm excited to share this amazing recipe of ${recipe.name}, that I came across. Dive into the details by following the link below: [See more...](http://localhost:4200/recipe-list?recipeId=${recipe.id})`,
       `Hello! I just uncovered this incredible recipe of ${recipe.name}, and I couldn't wait to share it with you. Delve into the specifics using the link provided: [See more...](http://localhost:4200/recipe-list?recipeId=${recipe.id})`,
@@ -61,9 +61,20 @@ export class RecipeListPageComponent implements OnInit {
       `Hi there! I've discovered a hidden gem of a recipe—${recipe.name}. Don't miss out on the delicious details. Follow this link: [See more...](http://localhost:4200/recipe-list?recipeId=${recipe.id})`,
       `Hello, fellow foodie! I've got a treat for you—an amazing recipe of ${recipe.name}. Follow the link to indulge your taste buds: [See more...](http://localhost:4200/recipe-list?recipeId=${recipe.id})`,
       `Salutations! Brace yourself for a culinary adventure with this exquisite recipe of ${recipe.name}. Click the link below to savor every detail: [See more...](http://localhost:4200/recipe-list?recipeId=${recipe.id})`
-    ];
-
-    this.clipboard.copy(shareMessages[randomNumber]);
-    this.notificationService.showSuccessNotification('Recipe have been processed into clipboard. Feel free to share it!')
+    ][Math.floor(Math.random() * 10)];
+    const shareSuccessMessage = [
+      'Your crafted recipes are now neatly processed and stored on the clipboard. It`s time to share the culinary magic!',
+      'Recipe creation complete! Your delicious culinary creations are copied to the clipboard. Ready to inspire others in the kitchen!',
+      'Your meticulously written recipes are ready for sharing. Let the cooking adventure commence!',
+      'The recipe magic has happened! They`re on your clipboard now, waiting to tantalize taste buds. Share the cooking joy!',
+      'Your culinary masterpieces are ready for the spotlight. Share the flavorful experience with the world!',
+      'Recipe processing success! Your kitchen wizardry is now conveniently stored on the clipboard. Share the cooking goodness far and wide!',
+      'Your curated recipes are there, just waiting to be shared. Let the cooking celebration begin!',
+      'Your recipes are neatly stored and ready to be shared. Spread the culinary love!',
+      'Your recipes have been officially processed to the clipboard. The time has come to share the cooking excitement with everyone!',
+      'Your recipes are locked, loaded, and ready for sharing. Let the culinary festivities begin!',
+    ][Math.floor(Math.random() * 10)]
+    this.clipboard.copy(shareMessage);
+    this.notificationService.showSuccessNotification(shareSuccessMessage);
   }
 }

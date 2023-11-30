@@ -7,7 +7,7 @@
 
     <ng-container *ngIf="(collection$ | async)?.length && (loading$ | async) === false else emptyPlaceholder">
       <mat-accordion *ngFor="let menu of collection$ | async" class="d-block mb-2">
-        <mat-expansion-panel>
+        <mat-expansion-panel [expanded]="selectedMenuId$.value === menu.id" (afterExpand)="selectedMenuId$.next(menu.id)">
           <mat-expansion-panel-header>
             <mat-panel-title>{{ menu.name }}</mat-panel-title>
             <mat-panel-description class="flex-row-reverse">{{ 'Items quantity' | translate }}: {{ menu.recipes.length }}</mat-panel-description>

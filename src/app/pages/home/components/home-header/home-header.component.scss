@@ -1,14 +1,9 @@
 .header {
-  --nav-height: 78px;
-  height: calc(100vh - var(--nav-height));
-  margin-top: var(--nav-height);
-}
-
-.header {
   background: linear-gradient(45deg, #fff1bf, #eac35f);
   background-size: 400% 400%;
+  margin-top: var(--nav-height);
   animation: gradient 5s ease infinite;
-  height: 100vh;
+  height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;

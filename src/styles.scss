@@ -37,6 +37,7 @@ html, body {
   width: 100%;
   box-sizing: border-box;
   -webkit-overflow-scrolling: touch;
+  background-color: var(--tg-secondary);
 }
 
 * {
@@ -51,7 +52,6 @@ html, body {
 
 .dialog-wrapper {
   max-height: 70vh;
-  width: 35vw;
 }
 
 .error-toast {
