@@ -11,17 +11,17 @@ const routes: Routes = [
   {
     path: 'menu-list',
     loadChildren: () => import('./pages/menu-list/menu-list-page.module').then((mod) => mod.MenuListPageModule),
-    // canActivate: [JwtAuthGuard],
+    canActivate: [JwtAuthGuard],
   },
   {
-    path: 'receipt-list',
-    loadChildren: () => import('./pages/receipt-list/receipt-list-page.module').then((mod) => mod.ReceiptListPageModule),
-    // canActivate: [JwtAuthGuard],
+    path: 'recipe-list',
+    loadChildren: () => import('./pages/recipe-list/recipe-list-page.module').then((mod) => mod.RecipeListPageModule),
+    canActivate: [JwtAuthGuard],
   },
   {
     path: 'ingredients-list',
     loadChildren: () => import('./pages/ingredients-list/ingredients-list-page.module').then((mod) => mod.IngredientsListPageModule),
-    // canActivate: [JwtAuthGuard],
+    canActivate: [JwtAuthGuard],
   },
   {
     path: 'frequently-asked-questions',

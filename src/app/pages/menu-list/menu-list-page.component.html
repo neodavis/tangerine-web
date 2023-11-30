@@ -1,6 +1,69 @@
-<ag-grid-angular
-  class="ag-theme-alpine vh-100 exclude-nav"
-  [rowData]="collection$ | async"
-  [gridOptions]="gridOptions">
-</ag-grid-angular>
+<app-shared-loader *ngIf="loading$ | async"></app-shared-loader>
 
+<div class="bg-secondary">
+  <div class="container bg-white min-vh-100 exclude-nav">
+    <h2 class="mt-2">{{ 'Menu List' | translate }}</h2>
+    <p class="pb-2">{{ 'Combine existing recipes into a whole menu!' | translate }}</p>
+
+    <ng-container *ngIf="(collection$ | async)?.length && (loading$ | async) === false else emptyPlaceholder">
+      <mat-accordion *ngFor="let menu of collection$ | async" class="d-block mb-2">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>{{ menu.name }}</mat-panel-title>
+            <mat-panel-description class="flex-row-reverse">{{ 'Items quantity' | translate }}: {{ menu.recipes.length }}</mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="card-body row border-top">
+            <div class="col-12 col-md pt-2 border-1 border border-top-0">
+              <img
+                [ngSrc]="'http://localhost:8080/menus/' + menu.id + '/image'"
+                class="card-img-top object-fit-cover"
+                alt="{{ menu.name }}"
+                width="100"
+                height="300"
+                (error)="handleImageError($event)">
+            </div>
+            <div class="col-12 col-md-8 d-flex flex-column align-content-between justify-content-between pt-2 border-1 border-bottom">
+              <div *ngIf="menu.recipes.length">
+                <p>{{ 'Menu recipes' | translate }}:</p>
+                <ol>
+                  <li *ngFor="let recipe of menu.recipes" class="menu-ingredient-info">
+                      {{ recipe.name }} |
+                      {{ 'Difficulty' | translate }}: {{ recipe.complexity | translate }} |
+                      {{ 'Duration' | translate }}: {{ recipe.secondsDuration | secondsToTime }}.
+                    <a [href]="'http://localhost:4200/recipe-list?recipeId=' + recipe.id">
+                      {{ 'Show more' | translate }}
+                    </a>
+                  </li>
+                </ol>
+              </div>
+
+              <p>
+                {{ 'Average price' | translate }}: {{ menu | getMenuAveragePrice | currency: '₴' }} |
+                {{ 'Created At' | translate }}: {{ menu.createdAt | date }} |
+                {{ 'Created By' | translate }}: {{ menu.authorUsername }}.
+              </p>
+            </div>
+          </div>
+
+          <button
+            class="btn btn-primary d-block w-100 mb-2"
+            (click)="shareMenu(menu)">
+            {{ 'Share' | translate }}
+          </button>
+          <button
+            *ngIf="menu | getMenuPermission | async"
+            class="btn btn-primary d-block w-100 mt-3 border-2"
+            (click)="openMenuEditDialog(menu.id)">
+            {{ 'Edit' | translate }}
+          </button>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </ng-container>
+  </div>
+</div>
+
+<app-footer></app-footer>
+
+<ng-template #emptyPlaceholder>
+  <span>{{ 'No items found' | translate }}</span>
+</ng-template>

@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 import { TranslationService } from '@shared/translation/services';
+import { UserService } from '@shared/auth/services';
 
 @Component({
   selector: 'app-root',
@@ -8,8 +9,23 @@ import { TranslationService } from '@shared/translation/services';
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {
-  constructor(private translate: TranslationService) {
-    translate.setLanguage('uk')
+export class AppComponent implements OnInit {
+  constructor(
+    private translate: TranslationService,
+    private userService: UserService,
+  ) {
+    this.translate.setLanguage('uk')
+  }
+
+  ngOnInit(): void {
+    const token = localStorage.getItem('jwtToken');
+
+    if (token) {
+      const isTokenValid = this.userService.isTokenValid(token);
+
+      if (!isTokenValid) {
+        localStorage.removeItem('jwtToken');
+      }
+    }
   }
 }

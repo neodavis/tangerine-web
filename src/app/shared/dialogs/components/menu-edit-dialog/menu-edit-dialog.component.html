@@ -2,71 +2,84 @@
 
 <div class="dialog-wrapper overflow-x-hidden">
   <div class="container border rounded p-4">
-    <h2 class="text-center">Menu Details</h2>
+    <h2 class="text-center">{{ 'Menu Details' | translate }}</h2>
     <form class="mt-4" [formGroup]="menuForm">
       <div class="d-flex justify-content-between gap-3">
         <div class="form-group col">
-          <label for="name">Menu Name:</label>
-          <input type="text" id="name" formControlName="name" placeholder="Type menu name" class="form-control">
+          <label for="name">{{ 'Menu Name' | translate }}:</label>
+          <input type="text" id="name" formControlName="name" placeholder="{{ 'Type menu name' | translate }}" class="form-control">
         </div>
         <div class="form-group col">
-          <label for="name">Menu Photo:</label>
+          <label for="name">{{ 'Menu Photo' | translate }}:</label>
           <input type="file" id="photo" (change)="onFileSelected($event)" class="form-control">
         </div>
       </div>
       <div class="d-flex justify-content-between gap-3">
         <div class="col">
-          <label for="receipt">Select Receipt:</label>
-          <select id="receipt" formControlName="receipt" class="form-control">
-            <option disabled value="">Select receipt</option>
+          <label for="recipe">{{ 'Select Recipe' | translate }}:</label>
+          <select id="recipe" class="form-control" [formControl]="recipeControl">
+            <option disabled [value]="null" selected>{{ 'Select recipe' | translate }}</option>
             <option
-              *ngFor="let receipt of (receiptOptions$ | async)"
-              [value]="receipt.id">
-              {{ receipt.name }}
+              *ngFor="let recipe of (recipeOptions$ | async)"
+              [value]="recipe.id">
+              {{ recipe.name | translate }}
             </option>
           </select>
         </div>
       </div>
 
-      <h3 class="mt-3">Receipts:</h3>
-      <div formArrayName="receipts">
-        <div *ngFor="let receipt of receiptsControl.value; let i = index" class="card mt-3">
+      <h3 class="mt-3">{{ 'Recipes' | translate }}:</h3>
+      <div formArrayName="recipes">
+        <div *ngFor="let recipe of recipesControl.value; let i = index" class="card mt-3">
           <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-            {{ receipt.name }}
-            <button class="btn btn-danger" (click)="receiptsControl.removeAt(i)">X</button>
+            {{ recipe.name | translate }}
+            <button class="btn btn-danger" (click)="recipesControl.removeAt(i)">X</button>
           </div>
           <div class="card-body text-start d-flex">
             <table>
               <tr>
-                <td class="pe-5">Quantity: {{ receipt.quantity }}</td>
-                <td>Duration: {{ receipt.duration }}</td>
+                <td>{{ 'Duration' | translate }}: {{ recipe.secondsDuration | secondsToTime }}</td>
               </tr>
               <tr>
-                <td class="pe-5">Difficulty: {{ receipt.difficulty }}</td>
-                <td>Created By: {{ receipt.createdBy }}</td>
+                <td class="pe-5">{{ 'Difficulty' | translate }}: {{ recipe.complexity | translate }}</td>
+                <td>{{ 'Created By' | translate }}: {{ recipe.authorUsername | translate }}</td>
               </tr>
               <tr>
-                <td class="pe-5">Price: {{ receipt.price }}</td>
-                <td>Created At: {{ receipt.createdAt | date }}</td>
+                <td class="pe-5">{{ 'Price' | translate }}: {{ recipe.productsCost | currency: '₴' }}</td>
+                <td>{{ 'Created At' | translate }}: {{ recipe.createdAt | date }}</td>
               </tr>
             </table>
           </div>
         </div>
+
+        <ng-container *ngIf="!recipesControl.length" [ngTemplateOutlet]="emptyPlaceholder"></ng-container>
       </div>
 
       <button
         class="btn btn-primary w-100 mt-3"
-        [disabled]="menuForm.invalid || menuForm.pristine"
+        [disabled]="menuForm.invalid || menuForm.pristine || !recipesControl.value.length"
         (click)="submitDialog()">
-        Save
+        {{ 'Save' | translate }}
       </button>
       <button
         mat-raised-button
         class="w-100 mt-1"
         color="warn"
         (click)="closeDialog()">
-        Go Back
+        {{ 'Go Back' | translate }}
+      </button>
+      <button
+        *ngIf="(menu$ | async)"
+        mat-raised-button
+        class="w-100 mt-1"
+        color="warn"
+        (click)="deleteMenu()">
+        {{ 'Delete Menu' | translate }}
       </button>
     </form>
   </div>
 </div>
+
+<ng-template #emptyPlaceholder>
+  <span>{{ 'No items selected' | translate }}</span>
+</ng-template>

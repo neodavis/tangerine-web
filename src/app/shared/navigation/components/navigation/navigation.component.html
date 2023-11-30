@@ -1,4 +1,4 @@
-<nav class="navbar position-absolute navbar-expand-lg fixed-top bg-white py-3 z-3">
+<nav class="navbar position-absolute navbar-expand-lg fixed-top bg-white border-bottom border-2 py-3 z-3">
   <div class="container my-0">
     <div class="navbar-brand d-flex align-items-center gap-2">
       <i class="fa-solid fa-hippo fa-2xl"></i>
@@ -19,7 +19,7 @@
             <a class="nav-link" aria-current="page" [routerLinkActive]="'active'" [routerLink]="'ingredients-list'">{{ 'ingredients' | translate }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'receipt-list'">{{ 'recipes' | translate }}</a>
+            <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'recipe-list'">{{ 'recipes' | translate }}</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" aria-current="page" [routerLinkActive]="'active'" [routerLink]="'menu-list'">{{ 'menus' | translate }}</a>
@@ -37,43 +37,19 @@
       </ul>
       <hr class="d-block d-lg-none mt-0">
       <ul class="navbar-nav flex-row mb-2 mb-lg-0">
-        <ng-container *ngIf="hasAdminPermission$ | async">
+        <ng-container *ngIf="(isGuest$ | async) === false">
           <li class="nav-item pe-3 border-end">
             <div>
               <button mat-raised-button [matMenuTriggerFor]="createDropdown" class="btn " type="button">
                 {{ 'create' | translate }}
               </button>
               <mat-menu #createDropdown="matMenu">
-                <a mat-menu-item class="dropdown-item" (click)="openIngredientCreateDialog()">{{ 'newIngredient' | translate }}</a>
-                <a mat-menu-item class="dropdown-item" (click)="openReceiptCreateDialog()">{{ 'newReceipt' | translate }}</a>
+                <a mat-menu-item class="dropdown-item" *ngIf="hasAdminPermission$ | async" (click)="openIngredientCreateDialog()">{{ 'newIngredient' | translate }}</a>
+                <a mat-menu-item class="dropdown-item" (click)="openRecipeCreateDialog()">{{ 'newRecipe' | translate }}</a>
                 <a mat-menu-item class="dropdown-item" (click)="openMenuCreateDialog()">{{ 'newMenu' | translate }}</a>
               </mat-menu>
             </div>
           </li>
-<!--          <li class="nav-item">-->
-<!--            <button-->
-<!--              mat-raised-button-->
-<!--              class="mx-2"-->
-<!--              (click)="openIngredientCreateDialog()">-->
-<!--              {{ 'newIngredient' | translate }}-->
-<!--            </button>-->
-<!--          </li>-->
-<!--          <li class="nav-item">-->
-<!--            <button-->
-<!--              mat-raised-button-->
-<!--              class="mx-2"-->
-<!--              (click)="openReceiptCreateDialog()">-->
-<!--              {{ 'newReceipt' | translate }}-->
-<!--            </button>-->
-<!--          </li>-->
-<!--          <li class="nav-item ">-->
-<!--            <button-->
-<!--              mat-raised-button-->
-<!--              class="mx-2"-->
-<!--              (click)="openMenuCreateDialog()">-->
-<!--              {{ 'newMenu' | translate }}-->
-<!--            </button>-->
-<!--          </li>-->
         </ng-container>
 
         <app-language-switcher class="mx-2"></app-language-switcher>
@@ -103,7 +79,7 @@
                 {{ user.username }}
               </button>
               <mat-menu #menu="matMenu">
-                <a mat-menu-item class="dropdown-item" [routerLink]="['profile', user.id]">{{ 'viewProfile' | translate }}</a>
+                <a mat-menu-item class="dropdown-item" (click)="openSettingsDialog()">{{ 'viewProfile' | translate }}</a>
                 <a mat-menu-item class="dropdown-item" [routerLink]="['home']" (click)="openSignOutDialog()">{{ 'signOut' | translate }}</a>
               </mat-menu>
             </div>

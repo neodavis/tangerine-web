@@ -1,18 +1,13 @@
 <app-shared-loader *ngIf="loading$ | async"></app-shared-loader>
 <main class="card text-start dialog-wrapper">
   <div class="card-body p-4">
-    <h1 class="card-title text-center">Sign in</h1>
-    <form>
-      <label for="username">Email:</label>
-      <input class="form-control mb-4" type="email" name="username" id="username" placeholder="Enter your email" required>
+    <h1 class="card-title text-center">{{ 'Sign in' | translate }}</h1>
+    <form [formGroup]="form">
+      <label for="username">{{ 'Username' | translate }}:</label>
+      <input class="form-control mb-4" type="text" formControlName="username" name="username" id="username" placeholder="{{ 'Enter your username' | translate }}" required>
 
-      <label for="password">Password:</label>
-      <input class="form-control mb-3" type="password" name="password" id="password" placeholder="Enter your password" required>
-
-      <p class="mb-4">
-        <span>Forgot your password?</span> <br>
-        <a href="#">Restore access</a>
-      </p>
+      <label for="password">{{ 'Password' | translate }}:</label>
+      <input class="form-control mb-3" type="password" formControlName="password" name="password" id="password" placeholder="{{ 'Enter your password' | translate }}" required>
     </form>
 
     <button
@@ -21,14 +16,14 @@
       color="primary"
       [disabled]="form.invalid || form.pristine"
       (click)="submitDialog()">
-      Save
+      {{ 'Save' | translate }}
     </button>
     <button
       mat-raised-button
       class="w-100 mt-1"
       color="warn"
       (click)="closeDialog()">
-      Go Back
+      {{ 'Go Back' | translate }}
     </button>
   </div>
 </main>

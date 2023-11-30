@@ -1,9 +1,11 @@
-import { Receipt } from '../../receipt/models';
+import { Recipe } from '@shared/recipe/models';
 
 export interface Menu {
-  id: string;
+  id: number;
   name: string;
-  receipts: Receipt[]
+  recipes: Recipe[];
+  recipesIndices?: number[];
+  recipeIndices?: number[];
   createdAt: number;
-  createdBy: string;
+  authorUsername: string;
 }

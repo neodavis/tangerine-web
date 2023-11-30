@@ -1,55 +1,23 @@
 <app-shared-loader *ngIf="loading$ | async"></app-shared-loader>
 <div class="dialog-wrapper">
   <div class="container border rounded p-4">
-    <h2 class="text-center">Ingredient Details</h2>
+    <h2 class="text-center">{{ 'Ingredient Details' | translate }}</h2>
     <form [formGroup]="ingredientForm" class="container my-4">
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" placeholder="Enter receipt name" formControlName="name" class="form-control">
+            <label for="name">{{ 'Name' | translate }}:</label>
+            <input type="text" id="name" placeholder="{{ 'Enter ingredient name' | translate }}" formControlName="name" class="form-control">
           </div>
         </div>
       </div>
-      <div class="row mt-2">
-        <div class="col">
-          <div class="form-group">
-            <label for="duration">Duration</label>
-            <input type="number" id="duration" placeholder="Enter receipt implementation duration" formControlName="duration" class="form-control">
-          </div>
-        </div>
-        <div class="col">
-          <div class="form-group">
-            <label for="difficulty">Difficulty</label>
-            <select id="difficulty" formControlName="difficulty" class="form-control">
-              <option value="" selected disabled>Choose Difficulty</option>
-              <option value="Easy">Easy</option>
-              <option value="Medium">Medium</option>
-              <option value="Hard">Hard</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="row mt-2">
-        <div class="col">
-          <div class="form-group">
-            <label for="price">Price</label>
-            <input type="number" id="price" placeholder="Enter total products price" formControlName="price" class="form-control">
-          </div>
-        </div>
-        <div class="col">
-          <div class="form-group">
-            <label for="quantity">Quantity</label>
-            <input type="number" id="quantity" placeholder="Enter quantity" formControlName="quantity" class="form-control">
-          </div>
-        </div>
-      </div>
+
       <div *ngIf="!isReadOnly" class="row mt-2">
         <div class="col">
-           <div class="form-group">
-             <label for="photo">Photo</label>
-             <input type="file" id="photo" (change)="onFileSelected($event)" class="form-control">
-           </div>
+          <div class="form-group">
+            <label for="photo">{{ 'Photo' | translate }}:</label>
+            <input type="file" id="photo" (change)="onFileSelected($event)" class="form-control">
+          </div>
         </div>
       </div>
     </form>
@@ -57,14 +25,22 @@
     <button
       class="btn btn-primary w-100 mt-3"
       (click)="submitDialog()">
-      Save
+      {{ 'Save' | translate }}
     </button>
     <button
       mat-raised-button
       class="w-100 mt-1"
       color="warn"
       (click)="closeDialog()">
-      Go Back
+      {{ 'Go Back' | translate }}
+    </button>
+    <button
+      *ngIf="(ingredient$ | async) && (hasAdminPermission$ | async)"
+      mat-raised-button
+      class="w-100 mt-1"
+      color="warn"
+      (click)="deleteIngredient()">
+      {{ 'Delete Ingredient' | translate }}
     </button>
   </div>
 </div>

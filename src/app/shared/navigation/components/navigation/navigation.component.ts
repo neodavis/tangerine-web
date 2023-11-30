@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 
-import { map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 
-import { AuthService } from '@shared/auth/services';
-import { User, UserRole } from '@shared/auth/models';
+import { UserService } from '@shared/auth/services';
+import { UserData, UserRole } from '@shared/auth/models';
 import {
   IngredientEditDialogComponent,
   MenuEditDialogComponent,
-  ReceiptEditDialogComponent,
+  RecipeEditDialogComponent,
   SignInDialogComponent,
   SignUpDialogComponent
 } from '@shared/dialogs/components';
+import { UserEditDialogComponent } from '@shared/dialogs/components/user-edit-dialog/user-edit-dialog.component';
 
 @Component({
   selector: 'app-navigation',
@@ -21,17 +21,15 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavigationComponent {
-  user$: Observable<User | null> = this.authService.user$;
-  hasAdminPermission$: Observable<boolean> = this.authService.hasAdminPermission$;
-  isGuest$: Observable<boolean> = this.authService.user$
+  user$: BehaviorSubject<UserData | null> = this.userService.user$;
+  hasAdminPermission$: Observable<boolean> = this.userService.hasAdminPermission$;
+  isGuest$: Observable<boolean> = this.userService.user$
     .pipe(
-      map((user: User | null) => !user),
+      map((user: UserData | null) => !user),
     );
-  UserRole = UserRole;
 
   constructor(
-    private authService: AuthService,
-    private router: Router,
+    private userService: UserService,
     private dialog: MatDialog,
   ) { }
 
@@ -47,7 +45,7 @@ export class NavigationComponent {
 
   openSignOutDialog(): void {
     localStorage.removeItem('jwtToken');
-    this.authService.user$.next(null);
+    this.userService.user$.next(null);
   }
 
   openMenuCreateDialog(): void {
@@ -55,13 +53,18 @@ export class NavigationComponent {
     this.dialog.open(MenuEditDialogComponent);
   }
 
-  openReceiptCreateDialog(): void {
+  openRecipeCreateDialog(): void {
     this.dialog.closeAll();
-    this.dialog.open(ReceiptEditDialogComponent);
+    this.dialog.open(RecipeEditDialogComponent);
   }
 
   openIngredientCreateDialog(): void {
     this.dialog.closeAll();
     this.dialog.open(IngredientEditDialogComponent);
+  }
+
+  openSettingsDialog() {
+    this.dialog.closeAll();
+    this.dialog.open(UserEditDialogComponent, { data: { id: this.user$.value?.id } })
   }
 }

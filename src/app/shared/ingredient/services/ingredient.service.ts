@@ -1,59 +1,50 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
-import { Observable, of } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 
 import { Ingredient } from '../models';
-import { Receipt } from '@shared/receipt/models';
+
+export interface SaveIngredientPayload {
+  name: string;
+}
+
+export interface UpdateIngredientPayload {
+  id: number;
+  name: string;
+}
 
 @Injectable()
 export class IngredientService {
-    // TODO: Change url after BE ready
-    // private basic = 'http://localhost:8080/menu';
+  private basic = 'http://localhost:8080/ingredients';
 
-    private readonly mock: Ingredient[] = [ ];
-
-    constructor(private http: HttpClient) { }
-
-    getAll(): Observable<Ingredient[]> {
-        return of(this.mock)
-
-        // return this.http.get<Menu[]>(this.basic)
-        //   .pipe(
-        //     catchError((error) => {
-        //         console.log(error);
-        //         return of([]);
-        //       },
-        //     )
-        //   );
-    }
-
-  getById(id: string): Observable<Ingredient> {
-    return of(this.mock.find(item => item.id === id)!);
-
-    // return this.http.get<Receipt>(this.basic)
-    //   .pipe(
-    //     catchError((error) => {
-    //         return of(null);
-    //       },
-    //     )
-    //   );
+  constructor(private http: HttpClient) {
   }
 
-  save(value: Partial<Receipt>) {
-    return of(null);
+  getAll(): Observable<Ingredient[]> {
+    return this.http.get<Ingredient[]>(this.basic)
   }
 
-  update(value: Receipt) {
-    return of(null);
+  getById(id: number): Observable<Ingredient> {
+    return this.http.get<Ingredient>(this.basic + `/${id}`);
   }
 
-  savePhoto(file: File): Observable<unknown> {
+  save(value: SaveIngredientPayload): Observable<Ingredient> {
+    return this.http.post<Ingredient>(this.basic, value);
+  }
+
+  update(value: UpdateIngredientPayload): Observable<Ingredient> {
+    return this.http.patch<Ingredient>(this.basic + `/${value.id}`, value);
+  }
+
+  savePhoto(id: number, file: File): Observable<string> {
     const formData = new FormData();
     formData.append('file', file);
 
-    return of(null as unknown as Receipt);
+    return this.http.post(this.basic + `/${id}/image`, formData, { responseType: 'text' });
+  }
 
-    // return this.http.post(, formData)
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(this.basic + `/${id}`);
   }
 }

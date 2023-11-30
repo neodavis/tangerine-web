@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BehaviorSubject, finalize, tap } from 'rxjs';
 
-import { AuthService } from '@shared/auth/services';
+import { UserService } from '@shared/auth/services';
 import { UserCredentials } from '@shared/auth/models';
 
 @UntilDestroy()
@@ -19,24 +19,24 @@ import { UserCredentials } from '@shared/auth/models';
 export class SignInDialogComponent {
   loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   form: FormGroup = this.formBuilder.group({
-    name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(24)]],
+    username: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(24)]],
     password: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(24)]],
   })
 
   constructor(
     private dialogRef: MatDialogRef<SignInDialogComponent>,
     private formBuilder: FormBuilder,
-    private authService: AuthService,
+    private userService: UserService,
     private router: Router,
   ) { }
 
   submitDialog(): void {
     this.loading$.next(true);
-    this.authService.signIn(this.form.value)
+    this.userService.signIn(this.form.value)
       .pipe(
         tap((res: UserCredentials) => {
           localStorage.setItem('jwtToken', res.token);
-          this.router.navigate(['doctors']);
+          this.router.navigate(['recipe-list']);
           this.closeDialog();
         }),
         finalize(() => this.loading$.next(false)),

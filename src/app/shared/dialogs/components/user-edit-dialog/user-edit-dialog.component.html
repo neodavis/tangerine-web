@@ -1,0 +1,46 @@
+<app-shared-loader *ngIf="loading$ | async"></app-shared-loader>
+
+<div class="dialog-wrapper overflow-x-hidden">
+  <div class="container border rounded p-4">
+    <h2 class="text-center">{{ 'User Profile' | translate }}</h2>
+    <form [formGroup]="userForm">
+      <label for="username">{{ 'Username' | translate }}:</label>
+      <input class="form-control mb-4" type="text" formControlName="username" id="username" placeholder="{{ 'Enter your username' | translate }}">
+
+      <label for="email">{{ 'Email' | translate }}:</label>
+      <input class="form-control mb-4" type="email" formControlName="email" id="email" placeholder="{{ 'example@mail.com' | translate }}">
+
+      <label for="phoneNumber">{{ 'Phone Number' | translate }}:</label>
+      <input class="form-control mb-3" type="tel" mask="(00) 000 - 00 - 00" prefix="+380" formControlName="phoneNumber" id="phoneNumber" placeholder="{{ 'Enter your phone number' | translate }}">
+
+      <label for="password">{{ 'Password' | translate }}:</label>
+      <input class="form-control mb-3" type="password" formControlName="password" id="password" placeholder="{{ 'Enter your password' | translate }}">
+
+      <label for="photo">{{ 'Upload photo' | translate }}:</label>
+      <input class="form-control" type="file" name="photo" (change)="onFileSelected($event)" id="photo" accept="image/*">
+    </form>
+
+    <button
+      mat-raised-button
+      class="w-100 mt-3"
+      color="primary"
+      [disabled]="userForm.invalid || userForm.pristine"
+      (click)="submitDialog()">
+      {{ 'Save' | translate }}
+    </button>
+    <button
+      mat-raised-button
+      class="w-100 mt-1"
+      color="warn"
+      (click)="closeDialog()">
+      {{ 'Go Back' | translate }}
+    </button>
+    <button
+      mat-raised-button
+      class="w-100 mt-1"
+      color="warn"
+      (click)="deleteUser()">
+      {{ 'Delete User' | translate }}
+    </button>
+  </div>
+</div>

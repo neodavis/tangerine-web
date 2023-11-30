@@ -1,0 +1,104 @@
+<app-shared-loader *ngIf="loading$ | async"></app-shared-loader>
+
+<div class="dialog-wrapper overflow-x-hidden">
+  <div class="container border rounded p-4">
+    <h2 class="text-center">{{ 'Recipe Details' | translate }}</h2>
+
+    <form class="mt-4" [formGroup]="recipeForm">
+      <div class="d-flex justify-content-between gap-3">
+        <div class="form-group col">
+          <label for="name">{{ 'Recipe Name' | translate }}</label>
+          <input type="text" id="name" formControlName="name" placeholder="{{ 'Type recipe name' | translate }}" class="form-control">
+        </div>
+        <div class="form-group col">
+          <label for="name">{{ 'Recipe Photo' | translate }}</label>
+          <input type="file" id="photo" (change)="onFileSelected($event)" class="form-control">
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="duration">{{ 'Description' | translate }}</label>
+            <textarea id="duration" placeholder="{{ 'Enter recipe description' | translate }}" formControlName="description" class="form-control"></textarea>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="difficulty">{{ 'Difficulty' | translate }}</label>
+            <select id="difficulty" formControlName="complexity" class="form-control">
+              <option [value]="RecipeComplexity.EASY">{{ RecipeComplexity.EASY | translate }}</option>
+              <option [value]="RecipeComplexity.MEDIUM" selected>{{ RecipeComplexity.MEDIUM | translate }}</option>
+              <option [value]="RecipeComplexity.HARD">{{ RecipeComplexity.HARD | translate }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col">
+          <div class="form-group">
+            <label for="price">{{ 'Duration (in minutes)' | translate }}</label>
+            <input type="number" id="price" placeholder="{{ 'Enter total recipe duration' | translate }}" formControlName="duration" class="form-control">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="quantity">{{ 'Total cost' | translate }}</label>
+            <input type="number" id="quantity" placeholder="{{ 'Enter total cost' | translate }}" formControlName="productsCost" class="form-control">
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between gap-3">
+        <div class="col">
+          <label for="ingredient">{{ 'Select Ingredients' | translate }}</label>
+          <select id="ingredient" [formControl]="ingredientControl" class="form-control">
+            <option disabled selected [value]="null">{{ 'Select Ingredient' | translate }}</option>
+            <option
+              *ngFor="let ingredient of (ingredientOptions$ | async)"
+              [value]="ingredient.id">
+              {{ ingredient.name | translate }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <h3 class="mt-3">{{ 'Ingredients' | translate }}</h3>
+      <div formArrayName="ingredients">
+        <div *ngFor="let ingredient of ingredientsControl.value; let i = index" class="card mt-3">
+          <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            {{ ingredient.name | translate }}
+            <button class="btn btn-danger" (click)="ingredientsControl.removeAt(i, { emitEvent: true })">X</button>
+          </div>
+        </div>
+      </div>
+
+      <ng-container *ngIf="!ingredientsControl.length" [ngTemplateOutlet]="emptyPlaceholder"></ng-container>
+
+      <button
+        class="btn btn-primary w-100 mt-3"
+        [disabled]="recipeForm.invalid || recipeForm.pristine"
+        (click)="submitDialog()">
+        {{ 'Save' | translate }}
+      </button>
+      <button
+        mat-raised-button
+        class="w-100 mt-1"
+        color="warn"
+        (click)="closeDialog()">
+        {{ 'Go Back' | translate }}
+      </button>
+      <button
+        *ngIf="(recipe$ | async)"
+        mat-raised-button
+        class="w-100 mt-1"
+        color="warn"
+        (click)="deleteRecipe()">
+        {{ 'Delete Recipe' | translate }}
+      </button>
+    </form>
+  </div>
+</div>
+
+<ng-template #emptyPlaceholder>
+  <span>{{ 'No items selected' | translate }}</span>
+</ng-template>

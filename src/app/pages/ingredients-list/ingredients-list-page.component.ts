@@ -1,63 +1,43 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { DatePipe } from '@angular/common';
-import { Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { Observable } from 'rxjs';
-import { GridOptions, GridReadyEvent, RowClickedEvent } from 'ag-grid-community';
+import { BehaviorSubject, finalize, Observable } from 'rxjs';
 
-import { MenuService } from '@shared/menu/services';
-import { Menu } from '@shared/menu/models';
-import { Receipt } from '@shared/receipt/models';
-import { IngredientEditDialogComponent, MenuEditDialogComponent } from '@shared/dialogs/components';
+import { IngredientEditDialogComponent } from '@shared/dialogs/components';
+import { IngredientService } from '@shared/ingredient/services';
+import { Ingredient } from '@shared/ingredient/models';
+import { UserService } from '@shared/auth/services';
 
 @Component({
   templateUrl: './ingredients-list-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [MenuService],
+  providers: [IngredientService],
 })
-export class IngredientsListPageComponent {
-  collection$: Observable<Menu[]> = this.menuService.getAll();
+export class IngredientsListPageComponent implements OnInit {
+  collection$: Observable<Ingredient[]> = this.ingredientService.getAll()
+    .pipe(
+      finalize(() => this.loading$.next(false))
+    );
+  hasAdminPermission$: Observable<boolean> = this.userService.hasAdminPermission$;
+  loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(
-    private menuService: MenuService,
+    private ingredientService: IngredientService,
+    private userService: UserService,
     private dialog: MatDialog,
-    private datePipe: DatePipe,
-    private router: Router,
   ) { }
 
-  gridOptions: GridOptions = {
-    onGridReady: (event: GridReadyEvent) => this.onGridReady(event),
-    onRowClicked: (event: RowClickedEvent) => this.openIngredientsEditDialog(event.data.id),
-    pagination: true,
-    paginationPageSize: 25,
-    rowSelection: 'multiple',
-    defaultColDef: {sortable: true, resizable: false},
-    rowModelType: 'clientSide',
-    suppressRowClickSelection: true,
-    columnDefs: [
-      {colId: "Name_colId", headerName: "Menu Name", valueGetter: (params) => params.data.name,},
-      {colId: "Quantity_colId", headerName: "Items quantity", valueGetter: (params) => params.data.receipts.length},
-      {
-        colId: "Price_colId",
-        headerName: "Average price",
-        valueGetter: (params) => params.data.receipts.reduce((acc: number, item: Receipt) => acc += item.price, 0)
-      },
-      {
-        colId: "Created_at_colId",
-        headerName: "Created At",
-        valueGetter: (params) => this.datePipe.transform(new Date(params.data.createdAt))
-      },
-      {colId: "Created_by_colId", headerName: "Created By", field: 'createdBy'},
-    ],
+  ngOnInit() {
+    this.loading$.next(true);
   }
 
-  private onGridReady(event: GridReadyEvent) {
-    event.api.sizeColumnsToFit();
-  }
-
-  private openIngredientsEditDialog(id: string): void {
+  openIngredientsEditDialog(id: number): void {
     this.dialog.closeAll();
     this.dialog.open(IngredientEditDialogComponent, {data: {id}})
+  }
+
+  handleImageError(event: ErrorEvent) {
+    (event.target as HTMLImageElement).src = 'assets/empty-image.jpg';
+    (event.target as HTMLImageElement).alt = 'No Image Available';
   }
 }

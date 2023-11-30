@@ -1,0 +1,24 @@
+<ng-container *ngIf="comments$ | async as comments">
+  <ng-container *ngIf="comments.length else emptyPlaceholder">
+    <app-comment
+      *ngFor="let comment of comments"
+      [comment]="comment"
+      (deleted)="deleteComment($event)">
+    </app-comment>
+  </ng-container>
+</ng-container>
+
+<textarea
+  #textArea
+  class="d-block w-100 form-control mt-3"
+  placeholder="{{ 'Leave your feedback for this recipe' | translate }}">
+</textarea>
+<button
+  class="btn btn-primary w-100 mt-3"
+  (click)="createComment(textArea.value)">
+  {{ 'Post comment' | translate }}
+</button>
+
+<ng-template #emptyPlaceholder>
+  <span>{{ 'No items found' | translate }}</span>
+</ng-template>

@@ -1,4 +1,4 @@
-export interface User {
+export interface UserData {
   id: number;
   username: string;
   roles: UserRole[];
@@ -14,5 +14,13 @@ export interface UserCredentials {
   type: string;
   algorithm: string;
   expiresAt: string;
+}
+
+export interface User {
+  id: number;
+  username: string;
+  email: string;
+  phoneNumber: string;
+  password: string;
 }
 

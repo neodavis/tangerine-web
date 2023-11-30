@@ -15,8 +15,16 @@ import { FooterModule } from '@shared/footer';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TranslationService } from '@shared/translation/services';
+import { ToastrModule } from 'ngx-toastr';
+import { NotificationInterceptor } from '@shared/notification/interceptors';
+import { NotificationService } from '@shared/notification/services';
+import { IConfig, provideEnvironmentNgxMask } from 'ngx-mask';
 
 const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/', '.json');
+
+const maskConfig: Partial<IConfig> = {
+  validation: false,
+};
 
 @NgModule({
   declarations: [
@@ -30,6 +38,7 @@ const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, '.
     NavigationModule,
     FooterModule,
     AgGridModule,
+    ToastrModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -41,7 +50,10 @@ const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, '.
   providers: [
     DatePipe,
     TranslationService,
+    NotificationService,
+    provideEnvironmentNgxMask(maskConfig),
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: NotificationInterceptor, multi: true},
   ],
   bootstrap: [AppComponent],
 })

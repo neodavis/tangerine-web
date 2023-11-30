@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { BehaviorSubject, finalize, tap } from 'rxjs';
+import { BehaviorSubject, finalize, iif, of, switchMap, tap } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { AuthService } from '@shared/auth/services';
+import { UserService } from '@shared/auth/services';
 
 @UntilDestroy()
 @Component({
@@ -16,25 +16,22 @@ import { AuthService } from '@shared/auth/services';
 export class SignUpDialogComponent {
   loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   form: FormGroup = this.formBuilder.group({
-    name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(24)]],
-    password: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(24)]],
+    username: ['', [Validators.required, Validators.minLength(3)]],
+    email: ['', [Validators.required, Validators.minLength(3)]],
+    password: ['', [Validators.required, Validators.minLength(3)]],
+    phoneNumber: ['', [Validators.required, Validators.minLength(3)]],
   })
-  private selectedPhoto!: File;
 
   constructor(
     private dialogRef: MatDialogRef<SignUpDialogComponent>,
     private formBuilder: FormBuilder,
-    private authService: AuthService,
+    private userService: UserService,
   ) { }
 
   submitDialog(): void {
     this.loading$.next(true);
 
-    this.authService.savePhoto(this.selectedPhoto)
-      .pipe(untilDestroyed(this))
-      .subscribe();
-
-    this.authService.signUp(this.form.value)
+    this.userService.signUp(this.form.value)
       .pipe(
         tap(() => this.closeDialog()),
         finalize(() => this.loading$.next(false)),
@@ -45,9 +42,5 @@ export class SignUpDialogComponent {
 
   closeDialog(): void {
     this.dialogRef.close();
-  }
-
-  onFileSelected(event: Event) {
-
   }
 }

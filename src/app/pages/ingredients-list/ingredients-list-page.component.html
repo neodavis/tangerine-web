@@ -1,6 +1,41 @@
-<ag-grid-angular
-  class="ag-theme-alpine exclude-nav vh-100"
-  [rowData]="collection$ | async"
-  [gridOptions]="gridOptions">
-</ag-grid-angular>
+<app-shared-loader *ngIf="loading$ | async"></app-shared-loader>
+
+<div class="bg-secondary">
+  <div class="container bg-white min-vh-100 exclude-nav">
+    <h2 class="mt-2">{{ 'Ingredient List' | translate }}</h2>
+    <p class="pb-2">{{ 'Explore available range of ingredients!' | translate }}</p>
+
+    <ng-container *ngIf="(collection$ | async)?.length && (loading$ | async) === false else emptyPlaceholder">
+      <div class="row">
+        <div class="col-md-3" *ngFor="let ingredient of collection$ | async">
+          <div class="card mb-4">
+            <img
+              [ngSrc]="'http://localhost:8080/ingredients/' + ingredient.id + '/image'"
+              class="card-img-top object-fit-cover border-1 border-bottom"
+              alt="{{ ingredient.name }}"
+              width="100"
+              height="200"
+              (error)="handleImageError($event)">
+            <div class="card-body pb-2">
+              <h5 class="card-title">{{ 'Ingredient' | translate }}: {{ ingredient.name }}</h5>
+            </div>
+            <div *ngIf="hasAdminPermission$ | async" class="card-body border-1 border-top">
+              <button
+                class="btn btn-primary d-block w-100"
+                (click)="openIngredientsEditDialog(ingredient.id)">
+                {{ 'Edit' | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<app-footer></app-footer>
+
+<ng-template #emptyPlaceholder>
+  <span>{{ 'No items found' | translate }}</span>
+</ng-template>
 

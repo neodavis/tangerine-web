@@ -1,4 +1,6 @@
 export interface Ingredient {
-  id: string;
+  imageKey: string;
+  id: number;
   name: string;
+  createdAt: number;
 }

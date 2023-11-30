@@ -1,27 +1,19 @@
 <app-shared-loader *ngIf="loading$ | async"></app-shared-loader>
 <main class="card text-start dialog-wrapper">
   <div class="card-body p-4">
-    <h1 class="card-title text-center">Sign up</h1>
-    <form>
-      <label for="username">Email:</label>
-      <input class="form-control mb-4" type="email" name="username" id="username" placeholder="example@mail.com" required>
+    <h1 class="card-title text-center">{{ 'Sign up' | translate }}</h1>
+    <form [formGroup]="form">
+      <label for="username">{{ 'Username' | translate }}:</label>
+      <input class="form-control mb-4" type="text" formControlName="username" id="username" placeholder="{{ 'Enter your username' | translate }}" required>
 
-      <label for="password">Password:</label>
-      <input class="form-control mb-3" type="password" name="password" id="password" placeholder="Enter your password" required>
+      <label for="email">{{ 'Email' | translate }}:</label>
+      <input class="form-control mb-4" type="email" formControlName="email" id="email" placeholder="{{ 'example@mail.com' | translate }}" required>
 
-      <div class="row">
-        <div class="col-6">
-          <label for="first-name">First name:</label>
-          <input class="form-control mb-3" type="text" name="first-name" id="first-name" placeholder="John" required>
-        </div>
-        <div class="col-6">
-          <label for="last-name">Last name:</label>
-          <input class="form-control mb-3" type="text" name="last-name" id="last-name" placeholder="Doe" required>
-        </div>
-      </div>
+      <label for="phoneNumber">{{ 'Phone Number' | translate }}:</label>
+      <input class="form-control mb-3" type="tel" mask="(00) 000 - 00 - 00" prefix="+380" formControlName="phoneNumber" id="phoneNumber" placeholder="{{ 'Enter your phone number' | translate }}">
 
-      <label for="photo">Upload photo:</label>
-      <input class="form-control" type="file" name="photo" (change)="onFileSelected($event)" id="photo" accept="image/*">
+      <label for="password">{{ 'Password' | translate }}:</label>
+      <input class="form-control mb-3" type="password" formControlName="password" id="password" placeholder="{{ 'Enter your password' | translate }}">
     </form>
 
     <button
@@ -30,15 +22,14 @@
       color="primary"
       [disabled]="form.invalid || form.pristine"
       (click)="submitDialog()">
-      Save
+      {{ 'Save' | translate }}
     </button>
     <button
       mat-raised-button
       class="w-100 mt-1"
       color="warn"
       (click)="closeDialog()">
-      Go Back
+      {{ 'Go Back' | translate }}
     </button>
   </div>
 </main>
-

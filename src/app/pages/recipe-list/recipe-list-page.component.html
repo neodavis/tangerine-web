@@ -1,0 +1,69 @@
+<app-shared-loader *ngIf="loading$ | async"></app-shared-loader>
+
+<div class="bg-secondary">
+  <div class="container bg-white min-vh-100 exclude-nav">
+    <h2 class="mt-2">{{ 'Recipes List' | translate }}:</h2>
+    <p class="pb-2">{{ 'Get new recipe ideas, share with your own recipes and leave your feedback to others!' | translate }}</p>
+
+    <ng-container *ngIf="(collection$ | async)?.length && (loading$ | async) === false else emptyPlaceholder">
+      <mat-accordion *ngFor="let recipe of collection$ | async" class="d-block mb-2">
+        <mat-expansion-panel [expanded]="selectedRecipeId$.value === recipe.id" (afterExpand)="selectedRecipeId$.next(recipe.id)">
+          <mat-expansion-panel-header expandedHeight="200">
+            <mat-panel-title>
+              {{ recipe.name }}
+            </mat-panel-title>
+            <mat-panel-description class="flex-row-reverse">
+              {{ 'Difficulty' | translate }}: {{ recipe.complexity | translate }}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <div class="card-body row border-1 border-top mb-2">
+            <div class="col-12 col-md pt-2 border-1 border border-top-0">
+              <img
+                [ngSrc]="'http://localhost:8080/recipes/' + recipe.id + '/image'"
+                class="card-img-top object-fit-cover"
+                alt="{{ recipe.name }}"
+                width="100"
+                height="200"
+                (error)="handleImageError($event)">
+            </div>
+            <div class="col-12 col-md-9 pt-2 border-1 border-bottom">
+              <ul class="card-text list-unstyled">
+                <li>{{ 'Description' | translate }}:</li>
+                <li>
+                  <ul class="list-unstyled ps-3">
+                    <li class="text-break">
+                      {{ recipe.description }}
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+              <p class="card-text">{{ 'Duration' | translate }}: {{ recipe.secondsDuration | secondsToTime }}.</p>
+              <p class="card-text">{{ 'Products Cost' | translate }}: {{ recipe.productsCost | currency: '₴' }}.</p>
+              <p class="card-text">{{ 'Created At' | translate }}: {{ recipe.createdAt | date }}.</p>
+              <p class="card-text">{{ 'Created By' | translate }}: {{ recipe.authorUsername }}.</p>
+              <button
+                class="btn btn-primary d-block w-100 mb-2"
+                (click)="shareRecipe(recipe)">
+                {{ 'Share' | translate }}
+              </button>
+              <button
+                *ngIf="recipe | getRecipePermission | async"
+                class="btn btn-primary d-block w-100 mb-4"
+                (click)="openRecipeEditDialog(recipe.id)">{{ 'Edit' | translate }}</button>
+            </div>
+          </div>
+
+          {{ 'Comments' | translate }}: <br>
+          <app-comments [recipeId]="recipe.id"></app-comments>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </ng-container>
+  </div>
+</div>
+
+<app-footer></app-footer>
+
+<ng-template #emptyPlaceholder>
+  <span>{{ 'No items found' | translate }}</span>
+</ng-template>
