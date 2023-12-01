@@ -66,9 +66,6 @@ export class RecipeService {
 
   update(value: UpdateRecipePayload): Observable<Recipe> {
     return this.http.patch<Recipe>(this.basic + `/${value.id}`, value)
-      .pipe(
-        switchMap(() => this.http.put<Recipe>(this.basic + `/${value.id}/ingredients`, {ingredientIndices: value.ingredientIndices}))
-      );
   }
 
   delete(id: number): Observable<void> {

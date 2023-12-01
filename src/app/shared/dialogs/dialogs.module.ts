@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -38,6 +38,7 @@ import { TranslateModule } from '@ngx-translate/core';
     MatButtonModule,
     NgxMaskDirective,
     TranslateModule.forChild(),
+    NgOptimizedImage,
   ],
   exports: [
     SignInDialogComponent,

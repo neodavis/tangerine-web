@@ -2,7 +2,7 @@
 
 <div class="dialog-wrapper overflow-x-hidden">
   <div class="container border rounded p-4">
-    <h2 class="text-center">{{ 'Menu Details' | translate }}</h2>
+    <h2 class="text-center border-1 border-bottom pb-2">{{ 'Menu Details' | translate }}</h2>
     <form class="mt-4" [formGroup]="menuForm">
       <div class="d-flex justify-content-between gap-3">
         <div class="form-group col">
@@ -29,11 +29,11 @@
       </div>
 
       <h3 class="mt-3">{{ 'Recipes' | translate }}:</h3>
-      <div formArrayName="recipes">
+      <div formArrayName="recipes" class="border-1 border-bottom pb-2">
         <div *ngFor="let recipe of recipesControl.value; let i = index" class="card mt-3">
           <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
             {{ recipe.name | translate }}
-            <button class="btn btn-danger" (click)="recipesControl.removeAt(i)">X</button>
+            <button class="btn btn-danger" (click)="recipesControl.removeAt(i); menuForm.markAsDirty()">X</button>
           </div>
           <div class="card-body text-start d-flex">
             <table>
@@ -46,7 +46,7 @@
               </tr>
               <tr>
                 <td class="pe-5">{{ 'Price' | translate }}: {{ recipe.productsCost | currency: '₴' }}</td>
-                <td>{{ 'Created At' | translate }}: {{ recipe.createdAt | date }}</td>
+                <td>{{ 'Created At' | translate }}: {{ recipe.createdAt * 1000 | date }}</td>
               </tr>
             </table>
           </div>

@@ -2,14 +2,13 @@ import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/cor
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { BehaviorSubject, filter, finalize, Observable, of, switchMap, take, tap, } from 'rxjs';
+import { BehaviorSubject, finalize, Observable, of, switchMap, take, tap, } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { RecipeService, SaveRecipePayload, UpdateRecipePayload } from '@shared/recipe/services';
+import { RecipeService } from '@shared/recipe/services';
 import { IngredientService, SaveIngredientPayload, UpdateIngredientPayload } from '@shared/ingredient/services';
 import { Ingredient } from '@shared/ingredient/models';
 import { UserService } from '@shared/auth/services';
-import { Recipe } from '@shared/recipe/models';
 
 @UntilDestroy()
 @Component({
@@ -23,10 +22,9 @@ export class IngredientEditDialogComponent implements OnInit {
   ingredient$: Observable<Ingredient | null> = this.data?.id ? this.ingredientService.getById(this.data.id) : of(null)
   hasAdminPermission$: Observable<boolean> = this.userService.hasAdminPermission$
 
-  isReadOnly!: boolean;
   ingredientForm: FormGroup = this.formBuilder.group({
     id: this.data?.id,
-    name: [{value: '', disabled: this.isReadOnly}, Validators.required],
+    name: ['', Validators.required],
   });
 
   private selectedPhoto!: File;

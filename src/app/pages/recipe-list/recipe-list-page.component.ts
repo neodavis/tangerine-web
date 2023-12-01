@@ -35,8 +35,6 @@ export class RecipeListPageComponent implements OnInit {
 
   ngOnInit() {
     this.loading$.next(true);
-
-    this.selectedRecipeId$.subscribe(console.log)
   }
 
   openRecipeEditDialog(id: number): void {

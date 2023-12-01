@@ -39,7 +39,7 @@
 
               <p>
                 {{ 'Average price' | translate }}: {{ menu | getMenuAveragePrice | currency: '₴' }} |
-                {{ 'Created At' | translate }}: {{ menu.createdAt | date }} |
+                {{ 'Created At' | translate }}: {{ menu.createdAt * 1000 | date }} |
                 {{ 'Created By' | translate }}: {{ menu.authorUsername }}.
               </p>
             </div>

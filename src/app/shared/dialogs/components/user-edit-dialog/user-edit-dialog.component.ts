@@ -7,6 +7,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { SaveUserPayload, UpdateUserPayload, UserService } from '@shared/auth/services';
 import { User } from '@shared/auth/models';
+import { NotificationService } from '@shared/notification/services';
 
 @UntilDestroy()
 @Component({
@@ -32,6 +33,7 @@ export class UserEditDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) private data: { id: number },
     private dialogRef: MatDialogRef<UserEditDialogComponent>,
     private formBuilder: FormBuilder,
+    private notificationService: NotificationService,
     private userService: UserService,
   ) { }
 
@@ -47,12 +49,19 @@ export class UserEditDialogComponent implements OnInit {
       saveAction = this.userService.update(this.getUpdatePayload(this.userForm))
     }
 
+
     this.sendRequestWithPhoto(saveAction)
       .pipe(
         take(1),
         tap(() => {
-          location.reload();
-          this.closeDialog();
+          if (this.userForm.controls['username'].dirty || this.userForm.controls['password'].dirty) {
+            this.notificationService.showSuccessNotification('User data successfully changed, please sign in with new credentials');
+            localStorage.removeItem('jwtToken');
+            this.userService.user$.next(null);
+          } else {
+            location.reload();
+            this.closeDialog();
+          }
         }),
         finalize(() => this.loading$.next(false)),
         untilDestroyed(this),
@@ -146,5 +155,10 @@ export class UserEditDialogComponent implements OnInit {
         )
       )
       : saveAction$;
+  }
+
+  handleImageError(event: ErrorEvent) {
+    (event.target as HTMLImageElement).src = 'assets/empty-user-image.webp';
+    (event.target as HTMLImageElement).alt = 'No Image Available';
   }
 }

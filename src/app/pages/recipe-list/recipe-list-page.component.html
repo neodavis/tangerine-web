@@ -40,7 +40,7 @@
               </ul>
               <p class="card-text">{{ 'Duration' | translate }}: {{ recipe.secondsDuration | secondsToTime }}.</p>
               <p class="card-text">{{ 'Products Cost' | translate }}: {{ recipe.productsCost | currency: '₴' }}.</p>
-              <p class="card-text">{{ 'Created At' | translate }}: {{ recipe.createdAt | date }}.</p>
+              <p class="card-text">{{ 'Created At' | translate }}: {{ recipe.createdAt * 1000 | date }}.</p>
               <p class="card-text">{{ 'Created By' | translate }}: {{ recipe.authorUsername }}.</p>
               <button
                 class="btn btn-primary d-block w-100 mb-2"

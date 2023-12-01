@@ -17,7 +17,6 @@ export interface UpdateMenuPayload {
   recipeIndices: number[];
 }
 
-
 @Injectable()
 export class MenuService {
   private basic = 'http://localhost:8080/menus';
@@ -82,11 +81,8 @@ export class MenuService {
     return this.http.post<Menu>(this.basic, value);
   }
 
-  update({ id, name, recipeIndices }: UpdateMenuPayload): Observable<Menu> {
-    return this.http.patch<Menu>(this.basic + `/${id}`, { name })
-      .pipe(
-        switchMap(() => this.http.put<Menu>(this.basic + `/${id}/recipes`, { recipeIndices }))
-      );
+  update(value: UpdateMenuPayload): Observable<Menu> {
+    return this.http.patch<Menu>(this.basic + `/${value.id}`, value)
   }
 
   delete(id: number): Observable<void> {

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/cor
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { BehaviorSubject, filter, finalize, map, merge, Observable, of, startWith, switchMap, take, tap, } from 'rxjs';
+import { BehaviorSubject, finalize, map, merge, Observable, of, startWith, switchMap, take, tap, } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { Recipe, RecipeComplexity } from '@shared/recipe/models';
@@ -10,7 +10,6 @@ import { MenuService } from '@shared/menu/services';
 import { RecipeService, SaveRecipePayload, UpdateRecipePayload } from '@shared/recipe/services';
 import { Ingredient } from '@shared/ingredient/models';
 import { IngredientService } from '@shared/ingredient/services';
-import { UserService } from '@shared/auth/services';
 
 @UntilDestroy()
 @Component({
@@ -48,12 +47,10 @@ export class RecipeEditDialogComponent implements OnInit {
     private formBuilder: FormBuilder,
     private ingredientService: IngredientService,
     private recipeService: RecipeService,
-    private userService: UserService,
   ) { }
 
   ngOnInit(): void {
     this.loadRecipe();
-    this.observeIngredientControlChange();
   }
 
   submitDialog(): void {
@@ -90,7 +87,6 @@ export class RecipeEditDialogComponent implements OnInit {
     this.recipe$
       .pipe(
         take(1),
-        filter(Boolean),
         tap((recipe: Recipe | null) => this.initializeRecipeFormData(recipe!)),
         finalize(() => this.loading$.next(false)),
         untilDestroyed(this),
@@ -123,12 +119,14 @@ export class RecipeEditDialogComponent implements OnInit {
   private initializeRecipeFormData(recipe: Recipe): void {
     this.recipeForm.controls['name'].setValue(recipe?.name ?? '');
     this.recipeForm.controls['description'].setValue(recipe?.description ?? '');
-    this.recipeForm.controls['complexity'].setValue(recipe?.complexity ?? '');
+    this.recipeForm.controls['complexity'].setValue(recipe?.complexity ?? RecipeComplexity.MEDIUM);
     this.recipeForm.controls['duration'].setValue((recipe?.secondsDuration ?? 0) / 60);
     this.recipeForm.controls['productsCost'].setValue(recipe?.productsCost ?? '');
     this.recipeForm.controls['name'].setValue(recipe?.name ?? '');
 
     this.setIngredients(recipe?.ingredients ?? []);
+
+    this.observeIngredientControlChange();
   }
 
   private setIngredients(ingredients: Ingredient[]): void {
