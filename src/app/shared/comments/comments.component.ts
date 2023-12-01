@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
 import { Observable, take, tap } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -13,7 +13,7 @@ import { CommentData } from './models';
   providers: [CommentService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CommentsComponent {
+export class CommentsComponent implements OnChanges {
   @Input() recipeId!: number;
 
   comments$!: Observable<CommentData[]>;

@@ -1,22 +1,21 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DatePipe } from '@angular/common';
 
 import { BehaviorSubject, finalize, Observable } from 'rxjs';
-import { GridOptions, GridReadyEvent, RowClickedEvent } from 'ag-grid-community';
 
 import { MenuService } from '@shared/menu/services';
 import { Menu } from '@shared/menu/models';
-import { Recipe } from '@shared/recipe/models';
 import { MenuEditDialogComponent } from '@shared/dialogs/components';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { NotificationService } from '@shared/notification/services';
 import { ActivatedRoute } from '@angular/router';
+import { MenuAveragePricePipe } from '@shared/menu/pipes';
+import { SecondsToTimePipe } from '@shared/recipe/pipes';
 
 @Component({
   templateUrl: './menu-list-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [MenuService],
+  providers: [MenuService, MenuAveragePricePipe, SecondsToTimePipe],
 })
 export class MenuListPageComponent implements OnInit {
   collection$: Observable<Menu[]> = this.menuService.getAllWithRecipes()
@@ -32,6 +31,8 @@ export class MenuListPageComponent implements OnInit {
     private clipboard: Clipboard,
     private notificationService: NotificationService,
     private activatedRoute: ActivatedRoute,
+    private menuAveragePricePipe: MenuAveragePricePipe,
+    private secondsToTimePipe: SecondsToTimePipe,
   ) {
   }
 
@@ -47,6 +48,25 @@ export class MenuListPageComponent implements OnInit {
   handleImageError(event: ErrorEvent) {
     (event.target as HTMLImageElement).src = 'assets/empty-image.jpg';
     (event.target as HTMLImageElement).alt = 'No Image Available';
+  }
+
+  processMenu(menu: Menu) {
+    const shareSuccessMessage = [
+      'Your crafted recipes are now neatly processed and stored on the clipboard. It`s time to share the culinary magic!',
+      'Recipe creation complete! Your delicious culinary creations are copied to the clipboard. Ready to inspire others in the kitchen!',
+      'Your meticulously written recipes are ready for sharing. Let the cooking adventure commence!',
+      'The recipe magic has happened! They`re on your clipboard now, waiting to tantalize taste buds. Share the cooking joy!',
+      'Your culinary masterpieces are ready for the spotlight. Share the flavorful experience with the world!',
+      'Recipe processing success! Your kitchen wizardry is now conveniently stored on the clipboard. Share the cooking goodness far and wide!',
+      'Your curated recipes are there, just waiting to be shared. Let the cooking celebration begin!',
+      'Your recipes are neatly stored and ready to be shared. Spread the culinary love!',
+      'Your recipes have been officially processed to the clipboard. The time has come to share the cooking excitement with everyone!',
+      'Your recipes are locked, loaded, and ready for sharing. Let the culinary festivities begin!',
+    ][Math.floor(Math.random() * 10)]
+    const shareMessage = `Name \t Recipe Name \t Duration \t Product Cost \t Items quantity \t Average Price \t Created At \t Created By \n=ГИПЕРССЫЛКА("http://localhost:4200/menu-list?menuId=${menu.id}"; "${menu.name}") \t \t ${menu.recipes.length} \t \t \t ₴${this.menuAveragePricePipe.transform(menu)} \t ${new Date(menu.createdAt * 1000).toLocaleDateString()} \t ${menu.authorUsername}
+    ${menu.recipes.map((recipe) => `\t=ГИПЕРССЫЛКА("http://localhost:4200/recipe-list?recipeId=${recipe.id}"; "${recipe.name}") \t ${this.secondsToTimePipe.transform(recipe.secondsDuration)} \t ₴${recipe.productsCost} \n`)}`
+    this.clipboard.copy(shareMessage);
+    this.notificationService.showSuccessNotification(shareSuccessMessage);
   }
 
   shareMenu(menu: Menu) {

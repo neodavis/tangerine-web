@@ -22,21 +22,21 @@ import { FooterModule } from '@shared/footer';
     MenuPermissionPipe,
     MenuAveragePricePipe,
   ],
-    imports: [
-        CommonModule,
-        MatButtonModule,
-        AuthModule,
-        SharedLoaderModule,
-        DialogsModule,
-        AgGridModule,
-        MatExpansionModule,
-        NgOptimizedImage,
-        TranslateModule.forChild(),
-        RouterModule.forChild([
-            {path: '', component: MenuListPageComponent},
-        ]),
-        FooterModule,
-    ],
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    AuthModule,
+    SharedLoaderModule,
+    DialogsModule,
+    AgGridModule,
+    MatExpansionModule,
+    NgOptimizedImage,
+    TranslateModule.forChild(),
+    RouterModule.forChild([
+      {path: '', component: MenuListPageComponent},
+    ]),
+    FooterModule,
+  ],
 })
 export class MenuListPageModule {
 }

@@ -13,7 +13,6 @@ import {
   switchMap,
   take,
   tap,
-  withLatestFrom
 } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -21,8 +20,6 @@ import { Menu } from '@shared/menu/models';
 import { Recipe } from '@shared/recipe/models';
 import { MenuService, SaveMenuPayload, UpdateMenuPayload } from '@shared/menu/services';
 import { RecipeService } from '@shared/recipe/services';
-import { UserService } from '@shared/auth/services';
-import { Ingredient } from '@shared/ingredient/models';
 
 @UntilDestroy()
 @Component({

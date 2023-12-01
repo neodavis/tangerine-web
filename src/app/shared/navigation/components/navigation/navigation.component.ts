@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 
 import { UserService } from '@shared/auth/services';
-import { UserData, UserRole } from '@shared/auth/models';
+import { UserData } from '@shared/auth/models';
 import {
   IngredientEditDialogComponent,
   MenuEditDialogComponent,

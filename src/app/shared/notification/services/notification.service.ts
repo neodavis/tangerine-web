@@ -18,7 +18,7 @@ export class NotificationService {
   }
 
   showErrorNotification(error: HttpErrorResponse): void {
-    let message = error.error?.message ?? error.error ? (Object.values(error.error)[0]) ?? error.error : error.message;
+    const message = error.error?.message ?? error.error ? (Object.values(error.error)[0]) ?? error.error : error.message;
 
     this.toastr.error(message, 'Error', {
       positionClass: 'toast-bottom-right',

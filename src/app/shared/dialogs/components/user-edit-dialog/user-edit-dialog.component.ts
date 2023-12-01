@@ -58,6 +58,7 @@ export class UserEditDialogComponent implements OnInit {
             this.notificationService.showSuccessNotification('User data successfully changed, please sign in with new credentials');
             localStorage.removeItem('jwtToken');
             this.userService.user$.next(null);
+            location.reload()
           } else {
             location.reload();
             this.closeDialog();
@@ -134,7 +135,7 @@ export class UserEditDialogComponent implements OnInit {
       {
         id: this.data.id,
         email: value.email,
-        password: value.password,
+        newPassword: value.password,
         phoneNumber: value.phoneNumber,
         username: value.username
       }

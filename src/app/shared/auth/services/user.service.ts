@@ -5,14 +5,15 @@ import jwt_decode from 'jwt-decode';
 import { BehaviorSubject, map, Observable, switchMap, tap } from 'rxjs';
 
 import { UserData, UserCredentials, UserRole, User } from '../models';
-import { Recipe, RecipeComplexity } from '@shared/recipe/models';
-import { Ingredient } from '@shared/ingredient/models';
+import { Recipe } from '@shared/recipe/models';
 import { Menu } from '@shared/menu/models';
 import { Router } from '@angular/router';
 
 export interface SaveUserPayload extends Omit<User, 'id'> { }
 
-export interface UpdateUserPayload extends Partial<User> { }
+export interface UpdateUserPayload extends Omit<User, 'password'> {
+  newPassword?: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class UserService {
   user$: BehaviorSubject<UserData | null> = new BehaviorSubject<UserData | null>(null);
   hasAdminPermission$: Observable<boolean> = this.user$
     .pipe(
-      map((user: UserData | null) => !!user?.roles.includes(UserRole.Admin)),
+      map((user: UserData | null) => !!user?.roles.includes(UserRole.Admin) || !user?.roles.length),
     )
 
   private basic = 'http://localhost:8080';

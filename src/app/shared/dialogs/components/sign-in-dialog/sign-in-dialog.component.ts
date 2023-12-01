@@ -19,8 +19,8 @@ import { UserCredentials } from '@shared/auth/models';
 export class SignInDialogComponent {
   loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   form: FormGroup = this.formBuilder.group({
-    username: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(24)]],
-    password: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(24)]],
+    username: ['', [Validators.required, Validators.minLength(4)]],
+    password: ['', [Validators.required, Validators.minLength(3)]],
   })
 
   constructor(
